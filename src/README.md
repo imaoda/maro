@@ -1,0 +1,3 @@
+- yarn global add babel-cli
+- cnpm i babel-preset-stage-2 babel-preset-env
+- babel src --out-dir dist
