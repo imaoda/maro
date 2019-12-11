@@ -42,6 +42,11 @@ declare const Maro: {
   isObjEqual: (obj1: any, obj2: any) => boolean; // 两个 plain object 是否一致，支持递归
   getDateStr: (param: string | Date | number) => string; // (时间戳|Date对象|2018/1/1|2018-1-1) => 2018-01-01
 
+  // 【ui 相关】
+  showLoading: () => void; // 显示全局 loading
+  hideLoading: () => void; // 隐藏全局 loading
+  showToast: (msg: string, color?: string, delay?: number) => void; // 展示 toast
+  
   // 【地图相关】
   setAMapKeys: (webkey: string, apikey: string) => void; // 设置高德地图的 key，请在调用后续方法之前，先调用该方法初始化 key
   getAMap: () => Promise<any>; // 获取 AMap 的引用（首次会在 html 中插入<script>加载AMap）

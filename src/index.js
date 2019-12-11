@@ -1,6 +1,7 @@
 import mmreq from 'mmreq'
 import chooseImage from './chooseImage'
 import { setStorageSync, getStorageSync, removeStorageSync } from './storage'
+import { showLoading, showToast, hideLoading } from './ui'
 import eventCenter from './eventCenter'
 import utils from './utils'
 import * as geo from './geo'
@@ -13,6 +14,9 @@ export default {
   setStorageSync,
   getStorageSync,
   removeStorageSync,
+  showLoading,
+  showToast,
+  hideLoading,
   store,
   eventCenter,
   ...utils,

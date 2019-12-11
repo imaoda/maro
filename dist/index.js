@@ -16,6 +16,8 @@ var _chooseImage2 = _interopRequireDefault(_chooseImage);
 
 var _storage = require('./storage');
 
+var _ui = require('./ui');
+
 var _eventCenter = require('./eventCenter');
 
 var _eventCenter2 = _interopRequireDefault(_eventCenter);
@@ -40,6 +42,9 @@ exports.default = _extends({
   setStorageSync: _storage.setStorageSync,
   getStorageSync: _storage.getStorageSync,
   removeStorageSync: _storage.removeStorageSync,
+  showLoading: _ui.showLoading,
+  showToast: _ui.showToast,
+  hideLoading: _ui.hideLoading,
   store: store,
   eventCenter: _eventCenter2.default
 }, _utils2.default, geo);
