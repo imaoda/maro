@@ -92,12 +92,17 @@ const getLocationAMap = AMap =>
 /**
  * 与微信一致的获取 GPS 接口
  */
-export const getLocation = async () => {
+export const getLocation = () => {
   checkKeys()
-  const map = await getAMap()
-  const ret = await getLocationAMap(map)
-  return {latitude: ret.position.lat, longitude: ret.position.lng}
+  return new Promise((resolve,reject)=>{
+    getAMap().then(map=>{
+      getLocationAMap(map).then(ret=>{
+        resolve({latitude: ret.position.lat, longitude: ret.position.lng})
+      },reject)
+    },reject)
+  })
 }
+
 
 /**
 |--------------------------------------------------

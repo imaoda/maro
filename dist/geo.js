@@ -17,8 +17,6 @@ var _mmreq2 = _interopRequireDefault(_mmreq);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
 var amapArgs = {
   key: '1f53305612a2aaa31e840469820eb8e8',
   platform: 'JS',
@@ -117,38 +115,16 @@ var getLocationAMap = function getLocationAMap(AMap) {
 /**
  * 与微信一致的获取 GPS 接口
  */
-var getLocation = exports.getLocation = function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    var map, ret;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            checkKeys();
-            _context.next = 3;
-            return getAMap();
-
-          case 3:
-            map = _context.sent;
-            _context.next = 6;
-            return getLocationAMap(map);
-
-          case 6:
-            ret = _context.sent;
-            return _context.abrupt('return', { latitude: ret.position.lat, longitude: ret.position.lng });
-
-          case 8:
-          case 'end':
-            return _context.stop();
-        }
-      }
-    }, _callee, undefined);
-  }));
-
-  return function getLocation() {
-    return _ref.apply(this, arguments);
-  };
-}();
+var getLocation = exports.getLocation = function getLocation() {
+  checkKeys();
+  return new Promise(function (resolve, reject) {
+    getAMap().then(function (map) {
+      getLocationAMap(map).then(function (ret) {
+        resolve({ latitude: ret.position.lat, longitude: ret.position.lng });
+      }, reject);
+    }, reject);
+  });
+};
 
 /**
 |--------------------------------------------------
@@ -160,12 +136,12 @@ var getLocation = exports.getLocation = function () {
  *  搜索经纬度周边，提供经纬度和搜索半径，关键词可选
  *  offset 指的每页个数，page 为第几页，很像 msyql 的 limit
  */
-var searchAround = exports.searchAround = function searchAround(_ref2) {
-  var latitude = _ref2.latitude,
-      longitude = _ref2.longitude,
-      radius = _ref2.radius,
-      _ref2$keywords = _ref2.keywords,
-      keywords = _ref2$keywords === undefined ? '' : _ref2$keywords;
+var searchAround = exports.searchAround = function searchAround(_ref) {
+  var latitude = _ref.latitude,
+      longitude = _ref.longitude,
+      radius = _ref.radius,
+      _ref$keywords = _ref.keywords,
+      keywords = _ref$keywords === undefined ? '' : _ref$keywords;
   return (0, _mmreq2.default)({
     url: 'https://restapi.amap.com/v3/place/around',
     data: _extends({ location: amapJoin({ latitude: latitude, longitude: longitude }), radius: radius, offset: 50, page: 1, keywords: keywords }, amapArgs)
@@ -175,10 +151,10 @@ var searchAround = exports.searchAround = function searchAround(_ref2) {
 /**
  *  关键词 sugguestion
  */
-var searchKeyword = exports.searchKeyword = function searchKeyword(_ref3) {
-  var city = _ref3.city,
-      county = _ref3.county,
-      keywords = _ref3.keywords;
+var searchKeyword = exports.searchKeyword = function searchKeyword(_ref2) {
+  var city = _ref2.city,
+      county = _ref2.county,
+      keywords = _ref2.keywords;
   return (0, _mmreq2.default)({
     url: 'https://restapi.amap.com/v3/place/text',
     data: _extends({ city: county || city || '全国', offset: 20, page: 1, keywords: keywords }, amapArgs)
@@ -212,9 +188,9 @@ var handleAmapResponse = function handleAmapResponse(data) {
 var roundCoord = function roundCoord(coord) {
   return coord.toFixed(6).replace(/\0+$/, '');
 };
-var amapJoin = function amapJoin(_ref4) {
-  var latitude = _ref4.latitude,
-      longitude = _ref4.longitude;
+var amapJoin = function amapJoin(_ref3) {
+  var latitude = _ref3.latitude,
+      longitude = _ref3.longitude;
   return roundCoord(longitude) + ',' + roundCoord(latitude);
 };
 var amapSplit = function amapSplit(location) {
