@@ -3,7 +3,7 @@
     "name": "wangyongfeng"
   },
   "dependencies": {
-    "mmreq": "^0.0.5"
+    "mmreq": "^0.0.6"
   },
   "description": "将 Taro 中的 api 拆分出来使用，并整合一些有用的 utils",
   "keywords": [
@@ -19,5 +19,5 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "0.0.8"
+  "version": "0.0.9"
 }
